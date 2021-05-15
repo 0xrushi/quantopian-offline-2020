@@ -1,0 +1,17 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2020-06-08T16:06:20-04:00
+
+====== backtesters ======
+Created Monday 08 June 2020
+
+https://github.com/mhallsmoore/qstrader
+qstrader
+
+zipline
+
+backtrader
+
+https://quantopian.github.io/pyfolio/notebooks/zipline_algo_example/
+https://blog.quantinsti.com/top-blogs-on-trading-strategies-of-2018/
+

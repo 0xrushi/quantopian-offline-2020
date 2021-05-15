@@ -1,0 +1,59 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2020-06-01T12:18:36-04:00
+
+====== Identifying the Ticker Symbols for Global Equity Indian Market ======
+Created Monday 01 June 2020
+
+{{{code: lang="python" linenumbers="True"
+from quantopian.research import run_pipeline
+
+# Pipeline imports
+from quantopian.pipeline.data import EquityPricing # OHLCV data for Global equity
+from quantopian.pipeline.data import factset # FactSet data set
+
+from quantopian.pipeline.domain import IN_EQUITIES # Indian equities
+
+from quantopian.pipeline import Pipeline
+
+# Other libraries imports
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Select time period to inspect
+start_period = '2015-01-15'
+end_period= '2016-01-15'
+
+
+# Pipeline definition
+pipe=Pipeline(
+    columns={   'price':EquityPricing.close.latest,
+                'volume':EquityPricing.volume.latest,
+                'mkt_cap':factset.Fundamentals.mkt_val.latest,
+                'economy':factset.RBICSFocus.l1_name.latest,
+                'sector':factset.RBICSFocus.l2_name.latest,
+                'subsector':factset.RBICSFocus.l3_name.latest,
+                'listing exchange':factset.EquityMetadata.primary_fsym_security_id.latest,
+                'listing currency':factset.EquityMetadata.listing_currency.latest,
+                'security type':factset.EquityMetadata.security_type.latest
+            },
+            domain=IN_EQUITIES)
+
+
+# Pipeline execution
+result= run_pipeline(
+                pipe,
+                start_period,
+                end_period)
+
+result.loc['2016-01-15',:][result['security type']=='ETF_ETF']
+}}}
+
+
+
+
+
+{{.\pasted_image.png}}
+
+
+

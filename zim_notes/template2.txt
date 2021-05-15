@@ -1,0 +1,51 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2020-06-04T23:55:32-04:00
+
+====== template2 ======
+Created Thursday 04 June 2020
+
+{{{code: lang="python" linenumbers="True"
+"""
+This is a template algorithm on Quantopian for you to adapt and fill in.
+"""
+from quantopian.algorithm import attach_pipeline, pipeline_output
+from quantopian.pipeline import Pipeline
+from quantopian.pipeline.data.builtin import USEquityPricing
+from quantopian.pipeline.factors import AverageDollarVolume
+ 
+def initialize(context):
+    context.nvda = sid(19725)
+    context.pos = None
+    context.day = None
+    #context.portfolio.starting_cash = 1000
+    
+def handle_data(context,data):
+    yesterdays_pr = data.history(context.nvda,'price', 2, '1d')[0]
+    todays_pr = data.current(context.nvda, 'price')
+
+    #print(yesterdays_pr)
+    #print(todays_pr)
+    diff= context.portfolio.cash - todays_pr   
+    print(diff)
+    record(cash=context.portfolio.cash, positions=context.portfolio.positions_value)  
+    
+    if context.pos is not None:
+        if context.pos == 'long' and todays_pr <= yesterdays_pr* 0.9728 and diff>0:
+            #log.info('closing long')
+            order(context.nvda, 1)
+            context.pos = None
+        elif context.pos == 'short' and todays_pr >= yesterdays_pr*1.0320:
+            #log.info('closing short')
+            order(context.nvda, -1)
+            context.pos = None
+
+    if context.pos is None:
+        if todays_pr < yesterdays_pr* 0.9728 and diff>0:
+            #log.info('opening long')
+            order(context.nvda, 1)
+            context.pos = 'long'
+        elif todays_pr > yesterdays_pr*1.0320:
+            #log.info('opening short')
+            order(context.nvda, -1)
+}}}

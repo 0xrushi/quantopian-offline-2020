@@ -1,0 +1,33 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2020-06-01T12:13:25-04:00
+
+====== Hello world ======
+
+{{{code: lang="python" linenumbers="True"
+"""
+This is a template algorithm on Quantopian for you to adapt and fill in.
+"""
+from quantopian.algorithm import attach_pipeline, pipeline_output
+from quantopian.pipeline import Pipeline
+from quantopian.pipeline.data.builtin import USEquityPricing
+from quantopian.pipeline.factors import AverageDollarVolume
+ 
+def initialize(context):
+    context.aapl = sid(24)
+    
+def handle_data(context,data):
+    hist = data.history(context.aapl,'price', 50, '1d')
+    
+    sma_50 = hist.mean()
+    sma_20 = hist[-20:].mean()
+    
+    if sma_20 > sma_50:
+        order_target_percent(context.aapl, 1.0)
+    elif sma_20 < sma_50:
+        order_target_percent(context.aapl, -1.0)
+        
+    record(leverage = context.account.leverage)
+}}}
+
+

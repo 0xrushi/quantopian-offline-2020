@@ -1,0 +1,11 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2020-06-01T15:36:07-04:00
+
+====== zipline local ======
+Created Monday 01 June 2020
+
+https://pythonprogramming.net/custom-markets-trading-calendar-bitcoin-python-programming-for-finance/?completed=/custom-data-zipline-local-python-programming-for-finance/
+E:\anaconda3\envs\env_zipline\Lib\site-packages\zipline\data
+https://github.com/quantopian/zipline/issues/2480
+
